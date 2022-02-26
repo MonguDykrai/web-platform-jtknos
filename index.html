@@ -6,7 +6,12 @@
   </head>
   <body>
     <div id="container" class="clearfix">
-      <div><button id="buttonDrawRect">绘制矩形</button></div>
+      <div>
+        <button id="buttonDrawRect">绘制矩形</button>
+        <button id="buttonStopDrawRect">结束绘制矩形</button>
+        <button id="buttonCalibrate">开始标定</button>
+        <button id="buttonStopCalibrate">结束标定</button>
+      </div>
       <!-- <div id="line1"></div> -->
       <div id="combination">
         <canvas id="canvas"></canvas>
@@ -21,11 +26,11 @@
         <div id="car2" class="car"></div>
       </div>
     </div>
-    <button id="button">连线回显</button>
+    <!-- <button id="button">连线回显</button>
     <button id="clear">清除连线</button>
-    <span id="position">坐标：</span>
+    <span id="position">坐标：</span> -->
     <script src="script.js"></script>
-    <script src="./addLine.js"></script>
+    <!-- <script src="./addLine.js"></script> -->
 
     <!-- <script>
       const container = document.getElementById('container');
@@ -92,5 +97,36 @@
         localStorage.removeItem('point');
       });
     </script> -->
+
+    <script>
+      // 开始标定
+      const buttonCalibrate = document.getElementById('buttonCalibrate');
+      buttonCalibrate.addEventListener('click', (e) => {
+        console.log('buttonCalibrate');
+        canvas.drawLine();
+      });
+
+      const buttonStopCalibrate = document.getElementById(
+        'buttonStopCalibrate'
+      );
+      buttonStopCalibrate.addEventListener('click', (e) => {
+        console.log('buttonStopCalibrate');
+        canvas.stopDrawLine();
+      });
+    </script>
+
+    <script>
+      const buttonDrawRect = document.getElementById('buttonDrawRect');
+      buttonDrawRect.addEventListener('click', (e) => {
+        console.log('buttonDrawRect');
+        canvas.drawRect();
+      });
+
+      const buttonStopDrawRect = document.getElementById('buttonStopDrawRect');
+      buttonStopDrawRect.addEventListener('click', (e) => {
+        console.log('buttonStopDrawRect');
+        canvas.stopDrawRect();
+      });
+    </script>
   </body>
 </html>

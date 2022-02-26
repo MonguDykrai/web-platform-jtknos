@@ -50,18 +50,88 @@ class Rectangle {
 }
 
 class Canvas {
-  constructor({ width, height, canvasId, backgroundColor = '#444' }) {
+  constructor({
+    width,
+    height,
+    canvasId,
+    backgroundColor = '#444',
+    domCanvasId,
+  }) {
     this.width = width || window.innerWidth;
     this.height = height || window.innerHeight;
     this.backgroundColor = backgroundColor;
+    this.domCanvas = document.getElementById(domCanvasId);
     this.canvas = document.getElementById(canvasId);
     this.context = this.canvas.getContext('2d');
     this.canvas.style.backgroundColor = this.backgroundColor;
     this.canvas.width = this.width;
     this.canvas.height = this.height;
-    this.addClickEventListener();
+    // this.addClickEventListener();
     this.eles = [];
     this.target = null; // 事件对象
+  }
+
+  /**
+   * rect | line
+   */
+  addClassnameCrosshair(mode = 'rect') {
+    if (mode === 'rect') {
+      if (!this.canvas.classList.contains('cursor-crosshair')) {
+        this.canvas.classList.add('cursor-crosshair');
+      }
+    }
+
+    if (mode === 'line') {
+      if (!this.canvas.classList.contains('cursor-crosshair')) {
+        this.canvas.classList.add('cursor-crosshair');
+      }
+      if (!this.domCanvas.classList.contains('cursor-crosshair')) {
+        this.domCanvas.classList.add('cursor-crosshair');
+      }
+    }
+  }
+
+  /**
+   * rect | line
+   */
+  removeClassnameCrosshair(mode = 'rect') {
+    if (mode === 'rect') {
+      if (this.canvas.classList.contains('cursor-crosshair')) {
+        this.canvas.classList.remove('cursor-crosshair');
+      }
+    }
+
+    if (mode === 'line') {
+      if (this.canvas.classList.contains('cursor-crosshair')) {
+        this.canvas.classList.remove('cursor-crosshair');
+      }
+      if (this.domCanvas.classList.contains('cursor-crosshair')) {
+        this.domCanvas.classList.remove('cursor-crosshair');
+      }
+    }
+  }
+
+  // 绘制矩形
+  drawRect() {
+    console.log('drawRect');
+    this.addClassnameCrosshair();
+  }
+
+  // 结束绘制矩形
+  stopDrawRect() {
+    console.log('stopDrawRect');
+    this.removeClassnameCrosshair();
+  }
+
+  // 开始标定
+  drawLine() {
+    console.log('drawLine');
+    this.addClassnameCrosshair('line');
+  }
+
+  // 结束标定
+  stopDrawLine() {
+    this.removeClassnameCrosshair('line');
   }
 
   addRect({ x, y, width, height, color }) {
@@ -70,8 +140,12 @@ class Canvas {
     rect.draw();
   }
 
+  /**
+   * 给 Canvas 画布注册 click 事件，监听用户点击了哪个 Rectangle 实例
+   */
   addClickEventListener(isStopBubble = false) {
     this.canvas.addEventListener('click', (event) => {
+      // debugger;
       this.eles.forEach((ele) => (ele.isTarget = false)); // 重置 isTarget
 
       if (isStopBubble) {
@@ -102,6 +176,7 @@ class Canvas {
 
 const canvas = new Canvas({
   canvasId: 'canvas',
+  domCanvasId: 'holograph', // 雷达全息图画布ID
   width: document.getElementById('combination').getBoundingClientRect().width, // 获取父容器的宽度
   height: 350,
 });
